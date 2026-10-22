@@ -17,7 +17,7 @@ This workflow was developed using **Python 3.8+**. The following libraries are r
 pip install numpy pandas scipy scikit-learn matplotlib tqdm aaindexx
 ```
 
-## 📂 Repository & Directory Structure**
+## 📂 Repository & Directory Structure
 ```text
 ML_Combinatorial_mutant/
 ├── FFT.py                          # Fast Fourier Transform (FFT) sequence encoding with AAindex
