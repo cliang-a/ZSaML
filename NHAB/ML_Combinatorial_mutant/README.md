@@ -1,9 +1,9 @@
 # Machine Learning Workflow for Combinatorial Mutants (NHAB)
 
-This repository contains the source code for predicting the fitness of combinatorial protein mutants in the **NHAB** dataset using machine learning models, Fast Fourier Transform (FFT) encoding of physical-chemical properties (AAindex), and ESM-based evolutionary representation screening.
+This folder contains the source code and prediction pipelines for higher-order combinatorial mutants in the **NHAB** dataset using machine learning models, Fast Fourier Transform (FFT) encoding of physical-chemical properties (AAindex), and ESM-based evolutionary representation screening.
 
 > 📌 **Data Availability Statement**  
-> All raw datasets, input CSVs, pre-computed feature embeddings, and output model files are permanently hosted on Zenodo:  
+> All raw datasets, input CSVs, pre-computed feature embeddings, and output model files are permanently archived on Zenodo:  
 > 👉 **[https://doi.org/10.5281/zenodo.23550236](https://doi.org/10.5281/zenodo.23550236)**  
 > Please download the necessary input files from Zenodo and restore them in the `Data_for_input/` folder before running the scripts.
 
@@ -14,9 +14,10 @@ This repository contains the source code for predicting the fitness of combinato
 This workflow was developed using **Python 3.8+**. The following libraries are required to run the scripts:
 
 ```bash
-pip install numpy pandas scipy scikit-learn matplotlib tqdm aaindex
+pip install numpy pandas scipy scikit-learn matplotlib tqdm aaindexx
 ```
-📂 Repository & Directory Structure
+
+## 📂 Repository & Directory Structure**
 ```text
 ML_Combinatorial_mutant/
 ├── FFT.py                          # Fast Fourier Transform (FFT) sequence encoding with AAindex
@@ -31,17 +32,17 @@ ML_Combinatorial_mutant/
 ## 📑 Core Script Descriptions
 
 *   **`FFT.py`**
-    *   Implements numerical sequence spectrum transformations via Fast Fourier Transform (`scipy.fftpack.fft`).
-    *   Encodes protein amino acid sequences using specified `aaindex1` physicochemical property indices with zero-mean normalization.
+    *   Implements numerical sequence spectrum transformations via Fast Fourier Transform (scipy.fftpack.fft).
+    *   Encodes protein amino acid sequences using specified aaindex1 physicochemical property indices with zero-mean normalization.
 *   **`AAindex_model_screening.py`**
-    *   **Stage 1 Selection:** Performs greedy feature selection over all `AAindex1` property codes across 14 regression models (`PLSRegression`, `Ridge`, `Lasso`, `ElasticNet`, `BayesianRidge`, `Huber`, `KNN`, `DecisionTree`, `RandomForest`, `ExtraTrees`, `AdaBoost`, `GradientBoosting`, `SVR`, `LinearRegression`).
-    *   Evaluates feature subsets using 5-fold cross-validation (`CV_MSE`) and exports intermediate step caches and prediction logs.
+    *   **Stage 1 Selection:** Performs greedy feature selection over all AAindex1 property codes across 14 regression models (PLSRegression, Ridge, Lasso, ElasticNet, BayesianRidge, Huber, KNN, DecisionTree, RandomForest, ExtraTrees, AdaBoost, GradientBoosting, SVR, LinearRegression).
+    *   Evaluates feature subsets using 5-fold cross-validation (CV_MSE) to identify optimal physicochemical representations (e.g., using 3 optimized AAindex descriptors: TANS770107, GEIM800111, PALJ810105).
 *   **`AAindex_esm_screening.py`**
-    *   **Stage 2 Selection:** Loads AAindex base configurations from Stage 1 and performs a nested greedy search over 16 pre-computed Evolutionary Scale Modeling (ESM) features.
-    *   Generates performance trade-off visualizations (CV MSE & Test \(R^2\) vs. ESM feature count) and outputs global benchmark reports.
+    *   **Stage 2 Selection:** Evaluates whether incorporating ESM-derived zero-shot fitness scores improves combinatorial variant predictions.
+    *  Performs a nested greedy search over 16 pre-computed Evolutionary Scale Modeling (ESM) features and outputs benchmark reports.
 *   **`prediction.py`**
-    *   Loads trained pipelines (e.g., `GradientBoosting_best_model.pkl`) and executes memory-optimized batch predictions (`batch_size=500`) on unseen multi-point mutant libraries (`Combinatorial_mutant_squence.csv`).
-    *   Performs inverse log transformations (\(\text{expm1}\)), ranks predicted variant fitness, and exports statistical distribution plots along with top-performing candidate lists (`top_20_predictions.csv`, `top_100_predictions.csv`).
+    *   Loads trained pipelines (e.g., Gradient Boosting best models) and executes memory-optimized batch predictions (batch_size=500) on unseen multi-point mutant libraries (Combinatorial_mutant_squence.csv).
+    *  Performs inverse log transformations ($\text{expm1}$), ranks predicted variant fitness, and exports statistical distribution plots along with top-performing candidate lists (top_20_predictions.csv, top_100_predictions.csv).
  
 ## 🚀 Quick Start Guide
 
@@ -50,7 +51,7 @@ ML_Combinatorial_mutant/
 2.  **Run Feature Selection & Model Screening:**
 
     ```bash
-    # Step 1: Greedy AAindex feature selection
+    # Step 1: Greedy AAindex feature selection & model screening
     python AAindex_model_screening.py
 
     # Step 2: Nested ESM feature screening
