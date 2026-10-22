@@ -1,0 +1,9 @@
+# 排除所有大体积数据文件
+*.csv
+*.xlsx
+*.h5
+*.pkl
+
+# 排除具体的预测结果文件夹（更保险）
+Benchmark/Results_for_benchmark/
+NHAB/ML_Combinatorial_mutant/prediction/
